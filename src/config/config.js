@@ -1,6 +1,6 @@
 let config = {};
 
-config.mongo = {
+config.db = {
     cs : process.env.CS,
 };
 

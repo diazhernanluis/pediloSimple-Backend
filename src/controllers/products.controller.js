@@ -1,6 +1,6 @@
 const { log } = require('../config/logger');
-const { company } = require('../models/company');
-const { products } = require('../models/products');
+const { company } = require('../models/schemas/company');
+const { products } = require('../models/schemas/products');
 const uuid = require('uuid');
 
 const getCompanyProducts = async (req, res) => {

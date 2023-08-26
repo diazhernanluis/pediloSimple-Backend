@@ -1,7 +1,6 @@
 const { log } = require('../config/logger');
-const { company } = require('../models/company');
-const { products } = require('../models/products');
-const uuid = require('uuid');
+const { company } = require('../models/schemas/company');
+const { products } = require('../models/schemas/products');
 
 const getProductsToOrder = async (req, res) => {
     
@@ -17,13 +16,6 @@ const getProductsToOrder = async (req, res) => {
         log.error("Error: ", e);
         res.status(500).send("Error");
     }
-};
-
-const groupBy = (xs, key) => {
-    return xs.reduce((rv, x) => {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
 };
 
 module.exports = {

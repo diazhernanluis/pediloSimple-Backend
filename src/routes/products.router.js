@@ -1,6 +1,6 @@
 const routes = require('express').Router();
 const { log } = require('../config/logger');
-const { getCompanyProducts, addCompanyProducts } = require('../controllers/products');
+const { getCompanyProducts, addCompanyProducts } = require('../controllers/products.controller');
 
 const auth = (req, res, next) => {
     log.warn("Should be secure");

@@ -1,0 +1,15 @@
+Crear el schema orders porque seria bueno guardar el historial de ordenes, no se si lo vamos a usar aun pero esta bueno tenerlo.
+Deberia tener el nombre del local (companyName) con todos los datos del pedido (van a estar cuando se lo mandemos al local)
+Ademas deberia tener un timestamp para saber cuando fue generado el pedido
+
+seria algo asi (aprox) 
+schema = {
+    companyName : { string}
+    order : { array }
+    timestamp: new Date()
+}
+
+
+-----------
+
+
