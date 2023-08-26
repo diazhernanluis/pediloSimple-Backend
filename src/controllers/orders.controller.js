@@ -18,6 +18,10 @@ const getProductsToOrder = async (req, res) => {
     }
 };
 
+const sendOrder = async (req, res) => {
+    // hay que tomar el formulario que viene desde el front, guardarlo en la base, generar el link de whatsApp y enviarlo
+}
+
 module.exports = {
     getProductsToOrder
 }
