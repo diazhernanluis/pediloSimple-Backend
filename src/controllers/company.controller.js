@@ -42,13 +42,16 @@ const companyRegister = async (req, res) => {
 }
 
 const companyLogin = async(req, res) => {
-    // TODO
-    // buscar en la base con el mail y comparar las passwords, aun no estan encriptadas asi que comparar manual (si, es inseguro, no me importa por ahora)
-    // si esta OK generar el token (ver companyRegister) y enviarlo en los headers
-    // si NO esta OK devolver 404 diciendo que no se encontro
-    // usar log.info para loguear ambos casos
-
-    // AGREGAR EL COMPANYLOGIN a los routes, sino no va a ser accesible :)
+    const users = await users.getUserByEmail(email);
+    if( users.password === password){
+        const token = generarToken(password)
+        log.info("Contraseña verificada")
+        res.setHeader('token', `Bearer ${token}`)
+        res.status(200).send("Contraseña verificada")
+    } else {
+        log.info("Error 404 : no se encontro");
+        res.status(404).send("Contraseña incorrecta");       
+    }
 }
 const updateCompanyInfo = async (req, res) => {
     
