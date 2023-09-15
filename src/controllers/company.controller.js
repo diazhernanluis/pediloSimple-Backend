@@ -18,12 +18,14 @@ const getAllCompanies = async (req, res) => {
 }
 
 const companyRegister = async (req, res) => {
+
     const {email, password} = req.body;
+
     if( !email || !password) {
         return res.status(400).send("falta algun dato");
     }
 
-    const exists = await getUserByEmail(email);
+    const exists = await getCompanyByEmail(email);
     if(exists) {
         return res.status(400).send("Usuario ya existente");
     }
