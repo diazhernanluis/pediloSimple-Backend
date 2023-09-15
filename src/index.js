@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const pkg = require("./package.json");
 const cors = require('cors');
 const { connection } = require('./config/DBconnect');
+const log = require("./config/logger");
 
 //Start Express-js.
 const app = express();
@@ -20,5 +21,5 @@ app.use('/v1', routes);
 
 app.listen( server.port, async () => {
     await connection();
-    console.log(`ᕕ(ಠ‿ಠ)ᕗ ${pkg.name} - Running on port: ${server.port}`);
+    log.info(`ᕕ(ಠ‿ಠ)ᕗ ${pkg.name} - Running on port: ${server.port}`);
 });

@@ -4,6 +4,8 @@
   "description": "pedilo simple",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
+    "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HD",
@@ -16,8 +18,10 @@
     "helmet": "^6.0.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^6.6.5",
-    "pino": "^8.6.1",
-    "pino-pretty": "^9.1.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

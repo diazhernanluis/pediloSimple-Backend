@@ -1,6 +1,6 @@
 const {registerValidations} = require('../utils/validations');
 const {getAll, getCompanyByEmail, createCompany, updateCompanyById} = require('../services/company.services');
-const { log } = require('../config/logger');
+const log = require('../config/logger');
 const uuid = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
 
@@ -23,7 +23,7 @@ const companyRegister = async (req, res) => {
         return res.status(400).send("falta algun dato");
     }
 
-    const exists = await users.getUserByEmail(email);
+    const exists = await getUserByEmail(email);
     if(exists) {
         return res.status(400).send("Usuario ya existente");
     }
@@ -42,17 +42,18 @@ const companyRegister = async (req, res) => {
 }
 
 const companyLogin = async(req, res) => {
-    const users = await users.getUserByEmail(email);
+    const users = await getUserByEmail(email);
     if( users.password === password){
         const token = generarToken(password)
-        log.info("Contraseña verificada")
-        res.setHeader('token', `Bearer ${token}`)
-        res.status(200).send("Contraseña verificada")
+        log.info("Contraseña verificada");
+        res.setHeader('token', `Bearer ${token}`);
+        res.status(200).send("Contraseña verificada");
     } else {
         log.info("Error 404 : no se encontro");
         res.status(404).send("Contraseña incorrecta");       
     }
 }
+
 const updateCompanyInfo = async (req, res) => {
     
     try {
