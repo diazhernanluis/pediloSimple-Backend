@@ -4,45 +4,45 @@ const { log } = require('../config/logger');
 const uuid = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
 
-/*
-    La idea es que el local se pueda registrar solo con mail y password.
-    Una vez registrado pueda armar toda su pagina con imagenes y productos.
-    Haciendolo en dos pasos no obligamos a hacer todo de una al local
-
-    Cree el booleano Enabled para chequear si el local esta listo o no para operar,
-    tambien nos va a servir para desactivarlo si no quiere mas el servicio o deja de pagar
-*/
 const getAllCompanies = async (req, res) => {
     const result = await getAll();
     res.status(200).send(result);
 }
 
 const companyRegister = async (req, res) => {
-    const {email, password} = req.body;
-    if( !email || !password) {
-        return res.status(400).send("falta algun dato");
+    const { email, password } = req.body;
+    console.log(req.body)
+    if (!email || !password) {
+      return res.status(400).send("Falta algún dato");
     }
-
-    const exists = await users.getUserByEmail(email);
-    if(exists) {
+    
+    try {
+      const exists = await getCompanyByEmail(email);
+  
+      if (exists) {
         return res.status(400).send("Usuario ya existente");
-    }
-
-    // hashear password - hay problemas con bcrypt en windows
-    const newCompany = {
+      }
+  
+      // hashear password - hay problemas con bcrypt en windows
+      const newCompany = {
         email,
         password
-    };
-
-    const token = generarToken(email);
-    await createCompany(newCompany);
-    log.info("Usuario creado");
-    res.setHeader('Authorization', `Bearer ${token}`);
-    res.status(200).send("Usuario creado");
-}
+      };
+  
+      const token = generarToken(email);
+      await createCompany(newCompany);
+      log.info("Usuario creado");
+      res.setHeader('Authorization', `Bearer ${token}`);
+      res.status(200).json("Usuario creado");
+    } catch (error) {
+      console.error('Error al registrar la empresa:', error);
+      res.status(500).json("Error interno del servidor");
+    }
+  };
+  
 
 const companyLogin = async(req, res) => {
-    const users = await users.getUserByEmail(email);
+    const users = await users.getCompanyByEmail(email);
     if( users.password === password){
         const token = generarToken(password)
         log.info("Contraseña verificada")

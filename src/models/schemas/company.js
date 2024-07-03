@@ -4,22 +4,22 @@ const companyCollection = 'company';
 const companySchema = new mongoose.Schema({
     mail: { type: String, required: true},
     password: { type: String, required: true},
-    enabled: {type: Boolean, required: true, default: false},
+    enabled: {type: Boolean, default: false},
     companyName: { type: String, required: true},
-    branchOffice: { type: String, required: true},
+    branchOffice: { type: String},
     cuit: { type: String, required: true, unique: true},
     telephone: { type: String, required: true},
     contact: { type: String, required: true},
-    creationDate: {type: Date, required: true},
-    suscribed: {type: Boolean, required: true},
+    creationDate: {type: Date},
+    suscribed: {type: Boolean},
     logo: { type: String, required: false},
-    deliveryZone: { type: String, required: false},
-    horario: { type: String, required: false},
-    address: { type: String, required: false},
+    deliveryZone: { type: String},
+    businessHours: { type: String},
+    address: { type: String},
     versionKey: false
 });
 
-const company = new mongoose.model(companyCollection, companySchema);
+const company = mongoose.model(companyCollection, companySchema);
 
 module.exports = {
     company

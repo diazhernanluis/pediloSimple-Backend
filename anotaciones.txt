@@ -13,3 +13,7 @@ schema = {
 -----------
 
 Replicar el company.services.js para armar orders.services.js y products.services.js
+
+mongoose id : 181.46.136.194
+Usuario : octaviopastorive
+Contraseña : 7uQ2X7qwKH0XYHuA
