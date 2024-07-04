@@ -10,6 +10,7 @@ const getAllCompanies = async (req, res) => {
 }
 
 const companyRegister = async (req, res) => {
+        console.log(req.body)
         const {email, companyName, password, cuit, telephone, contact, deliveryZone, businessHours, address} = req.body;
       
          if (!email || !password) {
