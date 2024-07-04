@@ -10,35 +10,34 @@ const getAllCompanies = async (req, res) => {
 }
 
 const companyRegister = async (req, res) => {
-
+    console.log(req.body);
     const {email, password} = req.body;
 
     if( !email || !password) {
         return res.status(400).send("falta algun dato");
     }
-
-    const exists = await getCompanyByEmail(email);
-    if(exists) {
-        return res.status(400).send("Usuario ya existente");
-      }
-  
-      // hashear password - hay problemas con bcrypt en windows
-      const newCompany = {
-        email,
-        password
-      };
-  
-      const token = generarToken(email);
-      await createCompany(newCompany);
-      log.info("Usuario creado");
-      res.setHeader('Authorization', `Bearer ${token}`);
-      res.status(200).json("Usuario creado");
+    try {
+        const exists = await getCompanyByEmail(email);
+        if(exists) {
+            return res.status(400).send("Usuario ya existente");
+        }
+    
+        // hashear password - hay problemas con bcrypt en windows
+        const newCompany = {
+            email,
+            password
+        };
+    
+        const token = generarToken(email);
+        await createCompany(newCompany);
+        log.info("Usuario creado");
+        res.setHeader('Authorization', `Bearer ${token}`);
+        res.status(200).json("Usuario creado");
     } catch (error) {
       console.error('Error al registrar la empresa:', error);
       res.status(500).json("Error interno del servidor");
     }
-  };
-  
+}
 
 const companyLogin = async(req, res) => {
     const users = await getUserByEmail(email);
