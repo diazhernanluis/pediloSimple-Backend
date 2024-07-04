@@ -10,7 +10,6 @@ const getAllCompanies = async (req, res) => {
 }
 
 const companyRegister = async (req, res) => {
-    console.log(req.body);
     const {email, password} = req.body;
 
     if( !email || !password) {
