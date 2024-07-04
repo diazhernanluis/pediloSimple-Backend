@@ -7,7 +7,7 @@ const companySchema = new mongoose.Schema({
     enabled: {type: Boolean, default: false},
     companyName: { type: String},
     branchOffice: { type: String},
-    cuit: { type: String, unique: true},
+    cuit: { type: String},
     telephone: { type: String},
     contact: { type: String},
     creationDate: {type: Date},

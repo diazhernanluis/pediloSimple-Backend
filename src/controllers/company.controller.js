@@ -1,5 +1,5 @@
 const {registerValidations} = require('../utils/validations');
-const {getAll, getCompanyByEmail, createCompany, updateCompanyById} = require('../services/company.services');
+const companyService = require('../services/company.services');
 const log = require('../config/logger');
 const uuid = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
@@ -10,35 +10,41 @@ const getAllCompanies = async (req, res) => {
 }
 
 const companyRegister = async (req, res) => {
+        const {email, companyName, password, cuit, telephone, contact, deliveryZone, businessHours, address} = req.body;
+      
+         if (!email || !password) {
+          return res.status(400).send("Falta algún dato");
+        }
+      
+        try {
+          const exists = await companyService.getCompanyByEmail(email);
+      
+          if (exists) {
+            return res.status(400).send("Usuario ya existente");
+          }
+      
+          const newCompany = {
+            email, 
+            companyName, 
+            password, 
+            cuit, 
+            telephone, 
+            contact, 
+            deliveryZone, 
+            businessHours, 
+            address
+          };
+      
+          const compania = await companyService.createCompany(newCompany);
+          res.status(201).json(compania);
+          log.info("Usuario creado");
+          res.status(200).send("Usuario creado");
 
-    const {email, password} = req.body;
-
-    if( !email || !password) {
-        return res.status(400).send("falta algun dato");
-    }
-
-    const exists = await getCompanyByEmail(email);
-    if(exists) {
-        return res.status(400).send("Usuario ya existente");
-      }
-  
-      // hashear password - hay problemas con bcrypt en windows
-      const newCompany = {
-        email,
-        password
+        } catch (error) {
+          console.error('Error al registrar la empresa:', error);
+          res.status(500).send("Error interno del servidor");
+        }
       };
-  
-      const token = generarToken(email);
-      await createCompany(newCompany);
-      log.info("Usuario creado");
-      res.setHeader('Authorization', `Bearer ${token}`);
-      res.status(200).json("Usuario creado");
-    } catch (error) {
-      console.error('Error al registrar la empresa:', error);
-      res.status(500).json("Error interno del servidor");
-    }
-  };
-  
 
 const companyLogin = async(req, res) => {
     const users = await getUserByEmail(email);
