@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const productsCollection = 'products';
 
 const productsSchema = new mongoose.Schema({
-    company: { type: String, required: true},
-    products: { type: Array, required: true},
+    companyId: { type: String, required: true},
+    name: { type: String, required: true},
+    price: { type: Number, required: true},
     versionKey: false
 });
 

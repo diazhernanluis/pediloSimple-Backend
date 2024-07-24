@@ -3,24 +3,18 @@ const log = require('../config/logger');
 const { getCompanyProducts, addCompanyProducts } = require('../controllers/products.controller');
 
 const auth = (req, res, next) => {
-    log.warn("Should be secure");
+    if (typeof log.warning === 'function') {
+        log.warning("Should be secure");
+    } else {
+        console.warning("Logger function 'warning' is not defined");
+    }
     next();
 }
 
-// ************------------********************** */
-// REQUIEREN LOGUEO PARA CHEQUEAR QUE ES LA EMPRESA
-// ************------------********************** */
+// Ruta para obtener todos los productos de una compañía
+routes.get('/:companyId/admin', auth, getCompanyProducts);
 
-// retorna toda la lista de productos que esa empresa tiene cargados.
-// Basicamente toda la configuracion de lo que va a ver el cliente de ese local
-routes.get('/:companyName/admin', auth, getCompanyProducts);
+// Ruta para agregar productos a una compañía
+routes.post('/:companyId/admin', auth, addCompanyProducts);
 
-
-// endpoint donde agrega productos la empresa
-routes.post('/:companyName/admin', auth, addCompanyProducts);
-
-
-
-
-
-module.exports = routes
+module.exports = routes;

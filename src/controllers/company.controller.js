@@ -1,12 +1,8 @@
 const {registerValidations} = require('../utils/validations');
 const companyService = require('../services/company.services');
-const log = require('c:/WorkSpace/pediloSimple-Backend/src/config/logger');
+const log = require('c:/WorkSpace/pediloSimple/Backend/src/config/logger');
 const uuid = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
-
-//console.log('Log object:', log); // Verifica que el objeto log se importe correctamente
-console.log('Log info function:', typeof log.info);
-log.info('This is a test info message from company.controller.js');
 
 const getAllCompanies = async (req, res) => {
     const result = await getAll();
@@ -52,28 +48,34 @@ const companyRegister = async (req, res) => {
         }
       };
 
-const companyLogin = async(req, res) => {
+const companyLogin = async (req, res) => {
     const email = req.body.email;
-    const password = req.body.password; 
-    console.log("estas intentando iniciar sesion")
-
+    const password = req.body.password;     
+    
     try {
-        const users = await getUserByEmail(email);
-        if (users.password === password) {
+        // Obtener la compañía por correo electrónico
+        const company = await companyService.getCompanyByEmail(email);
+
+        // Verificar la contraseña
+        if (company.password === password) {
             const token = generarToken(password);
             log.info("Contraseña verificada");
+             // Enviar el token en el encabezado y el companyId en la respuesta
             res.setHeader('token', `Bearer ${token}`);
-            res.status(200).send("Contraseña verificada");
+            res.status(200).json({ 
+                message: "Contraseña verificada", 
+                companyId: company.uuid // Incluye el ID de la compañía en la respuesta
+            });
         } else {
             log.warn("Contraseña incorrecta");
-            res.status(404).send("Contraseña incorrecta");
+            res.status(401).json({ message: "Contraseña incorrecta" }); // Código de estado 401 para credenciales inválidas
         }
-    } catch (error) {
-        console.log("error pelotudo")
-        log.error("Error al verificar la contraseña", error);
-        res.status(500).send("Error del servidor");
-    }
+        } catch (error) {
+            log.error("Error al verificar la contraseña", error);
+            res.status(500).json({ message: "Error del servidor" });
+        }
 }
+    
 
 const updateCompanyInfo = async (req, res) => {
     

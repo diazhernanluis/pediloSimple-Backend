@@ -1,4 +1,4 @@
-const { log } = require('../config/logger');
+const log = require('c:/WorkSpace/pediloSimple/Backend/src/config/logger');
 /**
  * Not found controller.
  * @param {object} req request object.
