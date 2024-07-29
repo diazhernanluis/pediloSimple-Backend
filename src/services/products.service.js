@@ -1,12 +1,12 @@
-const product = require('../models/schemas/products.js');
+const {products} = require('../models/schemas/products.js');
 
-const getAll = async () => await product.find();
+const getAll = async () => await products.find();
 
-const getProductByEmail = async (email) => await product.findOne({email: email});
+const getProductByEmail = async (email) => await products.findOne({email: email});
 
-const createProduct = async (info) => await product.create(info);
+const createProduct = async (info) => await products.create(info);
 
-const updateProductById = async (id, info) => await product.updateOne({_id: id}, { $set: info});
+const updateProductById = async (id, info) => await products.updateOne({_id: id}, { $set: info});
 
 
 module.exports = {

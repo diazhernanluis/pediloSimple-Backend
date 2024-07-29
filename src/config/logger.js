@@ -28,13 +28,13 @@ const log = winston.createLogger({
     transports: [
         new winston.transports.Console({
             level: 'debug' // Cambia el nivel aquí si deseas ver todos los niveles de log en la consola
+        }),
+        new winston.transports.File({
+             filename: 'logs/errors.log',
+             level: 'warning',
+             format: winston.format.simple()
         })
     ]
-        // new winston.transports.File({
-        //     filename: 'logs/errors.log',
-        //     level: 'warning',
-        //     format: winston.format.simple()
-        // })
 })
 
 module.exports = log;

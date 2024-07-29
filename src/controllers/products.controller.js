@@ -1,7 +1,8 @@
-const { log } = require('../config/logger');
-const { company } = require('../models/schemas/company');
+const log  = require('../config/logger');
+const { company }  = require('../models/schemas/company');
 const { products } = require('../models/schemas/products');
 const uuid = require('uuid');
+const { createProduct } = require('../services/products.service');
 
 const getCompanyProducts = async (req, res) => {
     const { companyId } = req.params;
@@ -26,16 +27,28 @@ const getCompanyProducts = async (req, res) => {
 
 
 const addCompanyProducts = async (req, res) => {
-    const { companyName } = req.params;
+    const { companyId } = req.params;
+    const { name, price } = req.body;
+
+    if (!companyId || !name || !price) {
+        return res.status(400).send("All fields are required");
+    }
+
     try {
-        let addProduct = { companyName, ...req.body};
-        const result = await products.create(addProduct);
-        res.status(201).json(result);
+        const newProduct ={
+            companyId,
+            name,
+            price
+        };
+
+        const createdProduct = await createProduct(newProduct);
+        res.status(201).json(createdProduct);
     } catch (e) {
-        log.error("Error: ", e);
-        res.status(500).json(e);
+        log.error(`Error adding product for company ${companyId}: `, e);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 module.exports = {
     getCompanyProducts,
