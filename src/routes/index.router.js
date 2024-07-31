@@ -12,7 +12,7 @@ const orders = require("./orders.router");
 const products = require("./products.router");
 
 // Routes
-router.use("/", orders);
+router.use("/orders", orders);
 router.use("/clients", clients);
 router.use("/products", products);
 

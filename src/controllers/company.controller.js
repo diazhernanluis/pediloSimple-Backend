@@ -1,13 +1,38 @@
 const {registerValidations} = require('../utils/validations');
 const companyService = require('../services/company.services');
 const log = require('c:/WorkSpace/pediloSimple/Backend/src/config/logger');
-const uuid = require('uuid');
+const { v4: isUuid }  = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
 
 const getAllCompanies = async (req, res) => {
     const result = await getAll();
     res.status(200).send(result);
 }
+
+const getCompany = async (req, res) => {
+    const { companyId } = req.params;
+    console.log('companyId :', companyId);
+  
+    // Validar que el UUID sea válido
+    if (!isUuid(companyId)) {
+      return res.status(400).json({ error: 'UUID inválido' });
+    }
+  
+    try {
+      const result = await companyService.getCompanyById(companyId);
+  
+      // Verificar si se encontró la compañía
+      if (!result) {
+        return res.status(404).json({ error: 'Compañía no encontrada' });
+      }
+  
+      console.log('resultado :', result);
+      res.status(200).json(result);
+    } catch (error) {
+      console.error('Error al obtener la compañía:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
 
 const companyRegister = async (req, res) => {
         console.log(req.body)
@@ -113,6 +138,7 @@ const updateCompanyInfo = async (req, res) => {
 
 module.exports = {
     getAllCompanies,
+    getCompany,
     companyLogin,
     companyRegister,
     updateCompanyInfo
