@@ -5,7 +5,7 @@ const { v4: isUuid }  = require('uuid');
 const { generarToken } = require('../middlewares/jwt');
 
 const getAllCompanies = async (req, res) => {
-    const result = await getAll();
+    const result = await companyService.getAll();
     res.status(200).send(result);
 }
 

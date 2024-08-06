@@ -2,7 +2,7 @@ const routes = require('express').Router();
 const {getAllCompanies, companyRegister, updateCompanyInfo, companyLogin, getCompany} = require('../controllers/company.controller');
 
 
-routes.get('/', getAllCompanies); //este va a ser un endpoint nuestro para chequear, probablemente mas adelante lo eliminemos
+routes.get('/companies', getAllCompanies); //este va a ser un endpoint nuestro para chequear, probablemente mas adelante lo eliminemos
 routes.get('/:companyId', getCompany);
 routes.post('/register', companyRegister); 
 routes.post('/update', updateCompanyInfo);
