@@ -11,7 +11,6 @@ const getAllCompanies = async (req, res) => {
 
 const getCompany = async (req, res) => {
     const { companyId } = req.params;
-    console.log('companyId :', companyId);
   
     // Validar que el UUID sea válido
     if (!isUuid(companyId)) {
@@ -20,7 +19,6 @@ const getCompany = async (req, res) => {
   
     try {
       const result = await companyService.getCompanyById(companyId);
-  
       // Verificar si se encontró la compañía
       if (!result) {
         return res.status(404).json({ error: 'Compañía no encontrada' });
@@ -69,7 +67,9 @@ const companyRegister = async (req, res) => {
 
         } catch (error) {
           console.error('Error al registrar la empresa:', error);
-          res.status(500).send("Error interno del servidor");
+          if (!res.headersSent) {
+            res.status(500).send("Error interno del servidor");
+          }
         }
       };
 

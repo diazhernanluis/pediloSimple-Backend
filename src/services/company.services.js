@@ -4,7 +4,7 @@ const getAll = async () => await company.find();
 
 const getCompanyByEmail = async (email) => await company.findOne({email: email});
 
-const getCompanyById = async (uuid) => await company.findOne({uuid: uuid})
+const getCompanyById = async (id) => await company.findOne({uuid: id})
 
 const createCompany = async (info) => await company.create(info);
 
